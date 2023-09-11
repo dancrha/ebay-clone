@@ -1,6 +1,7 @@
 "use client";
 
 import MainLayout from "@/app/layouts/MainLayout";
+import SimilarProducts from "../../components/SimilarProducts";
 
 const Product = ({ params }) => {
   const product = {
@@ -51,9 +52,17 @@ const Product = ({ params }) => {
                   </button>
                 </div>
               </div>
+
+              <div className='border-b py-1' />
+
+              <div className='pt-3'>
+                <div className='font-semibold pb-1'>Description:</div>
+                <div className='text-sm'>{product?.description}</div>
+              </div>
             </div>
           </div>
         </div>
+        <SimilarProducts />
       </MainLayout>
     </>
   );
