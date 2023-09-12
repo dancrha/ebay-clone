@@ -3,8 +3,36 @@
 import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { useUser } from "@/app/context/user";
 
 const TopMenu = () => {
+  const user = useUser();
+
+  const { isMenu, setIsMenu } = useState(false);
+
+  const isLoggedIn = () => {
+    if (user && user?.id) {
+      return (
+        <button
+          onClick={() => (!isMenu ? setIsMenu(true) : setIsMenu(false))}
+          className='flex items-center gap-2 hover:underline cursor-pointer'
+        >
+          <div>Hi, {user.name}</div>
+          <BsChevronDown />
+        </button>
+      );
+    }
+
+    return (
+      <Link
+        href='/auth'
+        className='flex items-center gap-2 hover:underline cursor-pointer'
+      >
+        <div>Login</div>
+        <BsChevronDown />
+      </Link>
+    );
+  };
   return (
     <>
       <div id='TopMenu' className='border-b'>
@@ -14,13 +42,7 @@ const TopMenu = () => {
             className='flex items-center text-[11px] text-[#333333] px-2 h-8'
           >
             <li className='relative px-3'>
-              <Link
-                href='/auth'
-                className='flex items-center gap-2 hover:underline cursor-pointer'
-              >
-                <div>Login</div>
-                <BsChevronDown />
-              </Link>
+              {isLoggedIn()}
               <div
                 id='AuthDropdown'
                 className='hidden absolute bg-white w-[200px] text-[#333333] z-40 top-[20px] left-0 border shadow-lg'
