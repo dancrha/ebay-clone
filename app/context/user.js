@@ -21,7 +21,7 @@ const Provider = ({ children }) => {
     const res = await supabaseClient.auth.getSession();
 
     if (res && res.data.session) {
-      return;
+      return res.data.session;
     }
     clearUser();
     return null;
@@ -30,6 +30,7 @@ const Provider = ({ children }) => {
     if (id) return;
 
     const res = await supabaseClient.auth.getUser();
+
     if (res && res.data.user) {
       const theUser = res.data.user;
 

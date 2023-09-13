@@ -4,6 +4,7 @@ import Link from "next/link";
 import { BsChevronDown } from "react-icons/bs";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { useUser } from "@/app/context/user";
+import { useState } from "react";
 
 const TopMenu = () => {
   const user = useUser();
@@ -45,11 +46,12 @@ const TopMenu = () => {
               {isLoggedIn()}
               <div
                 id='AuthDropdown'
-                className='hidden absolute bg-white w-[200px] text-[#333333] z-40 top-[20px] left-0 border shadow-lg'
+                className={`absolute bg-white w-[200px] text-[#333333] z-40 top-[20px] left-0 border shadow-lg
+                  ${isMenu ? "visible" : "hidden"}`}
               >
                 <div className='flex items-center justify-start gap-1 p-3'>
-                  <img width={50} src='https://picsum.photos/200' />
-                  <div className='font-bold text-[13px]'>Dan Crha</div>
+                  <img width={50} src={user?.picture} />
+                  <div className='font-bold text-[13px]'>{user?.name}</div>
                 </div>
                 <div className='border-b' />
                 <ul className='bg-white'>
