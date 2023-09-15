@@ -7,6 +7,7 @@ import { useUser } from "../../context/user";
 import { useEffect, useState } from "react";
 import { useCart } from "../../context/cart";
 import { useRouter } from "next/navigation";
+import ClientOnly from "@/app/components/ClientOnly";
 // import ClientOnly from "../../components/ClientOnly";
 
 export default function TopMenu() {
@@ -103,22 +104,22 @@ export default function TopMenu() {
               <img width={32} src='/images/uk.png' />
               Ship to
             </li>
-            {/* <ClientOnly>
+            <ClientOnly>
               <li className='px-3 hover:underline cursor-pointer'>
-                {/* <div onClick={() => router.push("/cart")} className='relative'> */}
-            <AiOutlineShoppingCart size={22} />
-            {cart.cartCount() > 0 ? (
-              <div className='absolute text-[10px] -top-[2px] -right-[5px] bg-red-500 w-[14px] h-[14px] rounded-full text-white'>
-                <div className=' flex items-center justify-center -mt-[1px]'>
-                  {cart.cartCount()}
+                <div onClick={() => router.push("/cart")} className='relative'>
+                  <AiOutlineShoppingCart size={22} />
+                  {cart.cartCount() > 0 ? (
+                    <div className='absolute text-[10px] -top-[2px] -right-[5px] bg-red-500 w-[14px] h-[14px] rounded-full text-white'>
+                      <div className=' flex items-center justify-center -mt-[1px]'>
+                        {cart.cartCount()}
+                      </div>
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
                 </div>
-              </div>
-            ) : (
-              <div></div>
-            )}
-            {/* </div> */}
-            {/* </li> */}
-            {/* </ClientOnly> */}
+              </li>
+            </ClientOnly>
           </ul>
         </div>
       </div>

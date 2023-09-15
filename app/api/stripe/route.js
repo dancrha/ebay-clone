@@ -1,9 +1,9 @@
-import prisma from "@/app/libs/prisma";
+import Stripe from "stripe";
 import { NextResponse } from "next/server";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
-export async function GET() {
+export async function POST(req) {
   const supabase = createServerComponentClient({ cookies });
 
   try {
@@ -13,11 +13,15 @@ export async function GET() {
 
     if (!user) throw Error();
 
-    const res = await prisma.addresses.findFirst({
-      where: { user_id: user?.id },
+    const body = await req.json();
+    const stripe = new Stripe(process.env.STRIPE_SK_KEY || "");
+
+    const res = await stripe.paymentIntents.create({
+      amount: Number(body.amount),
+      currency: "cad",
+      automatic_payment_methods: { enabled: true },
     });
 
-    await prisma.$disconnect();
     return NextResponse.json(res);
   } catch (error) {
     console.log(error);

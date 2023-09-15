@@ -13,12 +13,20 @@ export async function GET() {
 
     if (!user) throw Error();
 
-    const res = await prisma.addresses.findFirst({
+    const orders = await prisma.orders.findMany({
       where: { user_id: user?.id },
+      orderBy: { id: "desc" },
+      include: {
+        orderItem: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
 
     await prisma.$disconnect();
-    return NextResponse.json(res);
+    return NextResponse.json(orders);
   } catch (error) {
     console.log(error);
     await prisma.$disconnect();
