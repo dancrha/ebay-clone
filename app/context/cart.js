@@ -68,7 +68,7 @@ const Provider = ({ children }) => {
       cart = JSON.parse(localStorage.getItem("cart")) || [];
     }
     for (let i = 0; i < cart.length; i++) {
-      const element = array[i];
+      const element = cart[i];
       total += element.price;
     }
     return total;

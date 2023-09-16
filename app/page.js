@@ -1,28 +1,28 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import CarouselComp from "./components/CarouselComp";
 import Product from "./components/Product";
+import useIsLoading from "./hooks/useIsLoading";
 import MainLayout from "./layouts/MainLayout";
 
 export default function Home() {
-  const products = [
-    {
-      id: 1,
-      title: "Brown Leather Bag",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      url: "https://picsum.photos/id/7",
-      price: 2500,
-    },
-    {
-      id: 2,
-      title: "School Books",
-      description:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
-      url: "https://picsum.photos/id/20",
-      price: 1999,
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    useIsLoading(true);
+    const response = await fetch("/api/products");
+    const prods = await response.json();
+
+    setProducts([]);
+    setProducts(prods);
+    useIsLoading(false);
+  };
+
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <MainLayout>
       <CarouselComp />
