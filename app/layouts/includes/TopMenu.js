@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { useCart } from "../../context/cart";
 import { useRouter } from "next/navigation";
 import ClientOnly from "@/app/components/ClientOnly";
-// import ClientOnly from "../../components/ClientOnly";
 
 export default function TopMenu() {
   const router = useRouter();
@@ -16,9 +15,9 @@ export default function TopMenu() {
   const cart = useCart();
   const [isMenu, setIsMenu] = useState(false);
 
-  // useEffect(() => {
-  //   cart.cartCount();
-  // }, [cart]);
+  useEffect(() => {
+    cart.cartCount();
+  }, [cart]);
 
   const isLoggedIn = () => {
     if (user && user?.id) {
@@ -101,7 +100,7 @@ export default function TopMenu() {
               onClick={() => router.push("/address")}
               className='flex items-center gap-2 px-3 hover:underline cursor-pointer'
             >
-              <img width={32} src='/images/uk.png' />
+              <img width={32} src='/images/flag.png' />
               Ship to
             </li>
             <ClientOnly>

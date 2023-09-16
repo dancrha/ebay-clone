@@ -68,12 +68,12 @@ const Orders = () => {
                   </div>
 
                   <div className='pt-2'>
-                    <span className='font-bold mr-2'>Order Created:</span>$
+                    <span className='font-bold mr-2'>Order Created:</span>
                     {moment(order?.created_at).calendar()}
                   </div>
 
                   <div className='pt-2'>
-                    <span className='font-bold mr-2'>Delivery Time:</span>$
+                    <span className='font-bold mr-2'>Delivery Time:</span>
                     {moment(order?.created_at).add(3, "days").calendar()}
                   </div>
 
