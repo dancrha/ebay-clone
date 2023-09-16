@@ -1,8 +1,8 @@
 const Stripe = require("stripe");
 const { headers } = require("next/headers");
 const { NextResponse } = require("next/server");
-const prismadb = require("@/lib/prismadb");
-const { stripe } = require("@/lib/stripe");
+const prismadb = require("@/libs/prismadb");
+const { stripe } = require("@/libs/stripe");
 
 async function POST(req) {
   const body = await req.text();
