@@ -12,7 +12,7 @@ const AuthPage = () => {
       <div id='AuthPage' className='w-full min-h-screen bg-white'>
         <div className='w-full flex items-center justify-center p-5 border-b-gray-300'>
           <Link href={"/"} className='min-w-[170px]'>
-            <img src='/images/logo.svg' width='170' />
+            <img src='/images/ebay-clone-logo.png' width='170' />
           </Link>
         </div>
 
