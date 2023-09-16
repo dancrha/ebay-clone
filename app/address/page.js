@@ -39,6 +39,7 @@ const Address = () => {
     }
 
     const response = await useUserAddress();
+    console.log("Response from useUserAddress:", response); // Debugging line
     if (response) {
       setTheCurrentAddress(response);
       useIsLoading(false);
