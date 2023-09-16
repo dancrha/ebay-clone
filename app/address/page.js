@@ -1,20 +1,20 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import TextInput from "../components/TextInput";
 import MainLayout from "../layouts/MainLayout";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useUser } from "@/app/context/user";
+import TextInput from "../components/TextInput";
 import { useEffect, useState } from "react";
+import { useUser } from "@/app/context/user";
 import useIsLoading from "@/app/hooks/useIsLoading";
-import useUserAddress from "../hooks/useUserAddress";
-import { toast } from "react-toastify";
 import useCreateAddress from "../hooks/useCreateAddress";
+import useUserAddress from "../hooks/useUserAddress";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 import ClientOnly from "../components/ClientOnly";
 
-const Address = () => {
+export default function Home() {
   const router = useRouter();
-  const { user } = useUser;
+  const { user } = useUser();
 
   const [addressId, setAddressId] = useState(null);
   const [name, setName] = useState("");
@@ -32,16 +32,15 @@ const Address = () => {
     return "";
   };
 
-  const getAddress = async () => {
+  const getAdddress = async () => {
     if (user?.id == null || user?.id == undefined) {
       useIsLoading(false);
       return;
     }
 
     const response = await useUserAddress();
-    console.log("Response from useUserAddress:", response); // Debugging line
     if (response) {
-      setTheCurrentAddress(response);
+      setTheCurrentAddres(response);
       useIsLoading(false);
       return;
     }
@@ -50,10 +49,10 @@ const Address = () => {
 
   useEffect(() => {
     useIsLoading(true);
-    getAddress();
+    getAdddress();
   }, [user]);
 
-  const setTheCurrentAddress = (result) => {
+  const setTheCurrentAddres = (result) => {
     setAddressId(result.id);
     setName(result.name);
     setAddress(result.address);
@@ -63,6 +62,7 @@ const Address = () => {
   };
 
   const validate = () => {
+    setError(null);
     setError({});
     let isError = false;
 
@@ -90,12 +90,13 @@ const Address = () => {
     let isError = validate();
 
     if (isError) {
-      toast.error(error.message, { autoClose: 300 });
+      toast.error(error.message, { autoClose: 3000 });
       return;
     }
 
     try {
       setIsUpdatingAddress(true);
+
       const response = await useCreateAddress({
         addressId,
         name,
@@ -104,7 +105,8 @@ const Address = () => {
         city,
         country,
       });
-      setTheCurrentAddress(response);
+
+      setTheCurrentAddres(response);
       setIsUpdatingAddress(false);
 
       toast.success("Address updated!", { autoClose: 3000 });
@@ -123,68 +125,85 @@ const Address = () => {
         <div id='AddressPage' className='mt-4 max-w-[600px] mx-auto px-2'>
           <div className='mx-auto bg-white rounded-lg p-3'>
             <div className='text-xl text-bold mb-2'>Address Details</div>
+
             <form onSubmit={submit}>
               <div className='mb-4'>
                 <ClientOnly>
                   <TextInput
                     className='w-full'
                     string={name}
-                    onUpdate={setName}
                     placeholder='Name'
+                    onUpdate={setName}
                     error={showError("name")}
                   />
                 </ClientOnly>
               </div>
+
               <div className='mb-4'>
                 <ClientOnly>
                   <TextInput
                     className='w-full'
                     string={address}
-                    onUpdate={setAddress}
                     placeholder='Address'
+                    onUpdate={setAddress}
                     error={showError("address")}
                   />
                 </ClientOnly>
               </div>
+
               <div className='mb-4'>
                 <ClientOnly>
                   <TextInput
-                    className='w-full'
+                    className='w-full mt-2'
                     string={zipcode}
+                    placeholder='Zip Code'
                     onUpdate={setZipcode}
-                    placeholder='Zipcode/Postal Code'
                     error={showError("zipcode")}
                   />
                 </ClientOnly>
               </div>
+
               <div className='mb-4'>
                 <ClientOnly>
                   <TextInput
-                    className='w-full'
+                    className='w-full mt-2'
                     string={city}
-                    onUpdate={setCity}
                     placeholder='City'
+                    onUpdate={setCity}
                     error={showError("city")}
                   />
                 </ClientOnly>
               </div>
-              <div className='mb-4'>
+
+              <div>
                 <ClientOnly>
                   <TextInput
-                    className='w-full'
+                    className='w-full mt-2'
                     string={country}
-                    onUpdate={setCountry}
                     placeholder='Country'
+                    onUpdate={setCountry}
                     error={showError("country")}
                   />
                 </ClientOnly>
               </div>
+
               <button
                 type='submit'
                 disabled={isUpdatingAddress}
-                className={`mt-6 w-full text-white text-lg font-semibold p-3 rounded bg-blue-600 ${
-                  isUpdatingAddress ? "bg-blue-800" : "bg-blue-600"
-                }`}
+                className={`
+                                mt-6
+                                w-full 
+                                text-white 
+                                text-lg 
+                                font-semibold 
+                                p-3 
+                                rounded
+                                ${
+                                  isUpdatingAddress
+                                    ? "bg-blue-800"
+                                    : "bg-blue-600"
+                                }
+                            `}
               >
                 {!isUpdatingAddress ? (
                   <div>Update Address</div>
@@ -201,6 +220,4 @@ const Address = () => {
       </MainLayout>
     </>
   );
-};
-
-export default Address;
+}
