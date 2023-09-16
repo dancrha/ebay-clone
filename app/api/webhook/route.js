@@ -1,8 +1,8 @@
-const Stripe = require("stripe");
-const { headers } = require("next/headers");
-const { NextResponse } = require("next/server");
-const prismadb = require("@/libs/prismadb");
-const { stripe } = require("@/libs/stripe");
+import Stripe from "stripe";
+import { headers } from "next/headers";
+import { NextResponse } from "next/server";
+import prismadb from "@/lib/prismadb";
+import { stripe } from "@/lib/stripe";
 
 async function POST(req) {
   const body = await req.text();
