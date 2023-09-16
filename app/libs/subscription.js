@@ -1,5 +1,5 @@
-const { auth } = require("@clerk/nextjs");
-const prismadb = require("./prismadb");
+import { auth } from "@clerk/nextjs";
+import prismadb from "./prismadb";
 
 const DAY_IN_MS = 86400000;
 
